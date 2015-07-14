@@ -5,6 +5,7 @@ spec/fixtures
 .vagrant
 .bundle
 .project
-logs
+doc
+log
 results
 vendor
