@@ -1,0 +1,16 @@
+HOSTS:
+    centos-7-x64:
+        roles:
+        - database
+        platform: el-7-x86_64
+        image: milcom/centos7-systemd
+        hypervisor: docker
+        docker_cmd: '["/usr/sbin/init"]'
+        docker_image_commands:
+        - 'yum install -y wget tar hostname initscripts ntpdate rubygems ruby-augeas ruby-devel augeas-devel'
+        - 'touch /etc/sysconfig/network'
+        docker_preserve_image: true
+        
+CONFIG:
+  log_level: verbose
+  type: foss

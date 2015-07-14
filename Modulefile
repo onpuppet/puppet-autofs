@@ -1,0 +1,11 @@
+name          'Yuav-autofs'
+version       '1.0.0'
+source        'https://github.com/Yuav/puppet-autofs'
+author        'Yuav'
+license       'Apache-2.0'
+summary       'Installs and configures autofs'
+description   'Module for configuring automounts'
+project_page  'https://github.com/Yuav/puppet-autofs'
+
+dependency 'puppetlabs/stdlib'
+dependency 'puppetlabs/concat'

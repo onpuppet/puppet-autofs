@@ -1,0 +1,10 @@
+.*.sw?
+pkg
+spec/fixtures
+.rspec_system
+.vagrant
+.bundle
+.project
+logs
+results
+vendor
