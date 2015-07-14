@@ -8,6 +8,13 @@ group :test do
   gem "puppetlabs_spec_helper"
   gem "rspec-puppet-facts"
   gem "ci_reporter_rspec"
+  gem "metadata-json-lint"
+  gem "puppet-lint"
+  gem "puppet-lint-variable_contains_upcase"
+  gem "puppet-lint-param-docs"
+  gem "puppet-lint-absolute_template_path"
+  gem "puppet-lint-unquoted_string-check"
+  gem "puppet-lint-strict_indent-check"
 end
 
 group :development do
@@ -16,13 +23,6 @@ group :development do
   gem "vagrant-wrapper"
   gem "puppet-blacksmith"
   gem "guard-rake"
-  gem "metadata-json-lint"
-  gem "puppet-lint"
-  gem "puppet-lint-variable_contains_upcase"
-  gem "puppet-lint-param-docs"
-  gem "puppet-lint-absolute_template_path"
-  gem "puppet-lint-unquoted_string-check"
-  gem "puppet-lint-strict_indent-check"
 end
 
 group :system_tests do
