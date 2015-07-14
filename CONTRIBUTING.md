@@ -90,3 +90,8 @@ If you don't want to have to recreate the virtual machine every time you
 can use `BEAKER_destroy=no` and `BEAKER_provision=no`. On the first run you will
 at least need `BEAKER_provision` set to yes (the default). The Vagrantfile
 for the created virtual machines will be in `.vagrant/beaker_vagrant_files`.
+
+## CI integration
+
+This project includes an ant build.xml for your convenience. To trigger it, just 
+start `ant`
