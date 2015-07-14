@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Yuav/puppet-autofs.svg?branch=master)](https://travis-ci.org/Yuav/puppet-autofs)
+
 #### Table of Contents
 
 1. [Overview](#overview)
