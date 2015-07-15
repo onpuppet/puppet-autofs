@@ -22,6 +22,31 @@ describe 'autofs' do
           it { is_expected.to contain_service('autofs') }
           it { is_expected.to contain_package('autofs').with_ensure('present') }
         end
+      
+        grades = { "Jane Doe" => 10, "Jim Doe" => 6 }
+        
+        context "autofs class with mounts" do
+          let(:params) {{
+              'mounts' => {
+                'home' => { 
+                  'remote'     => 'nfs:/export/home',
+                  'mountpoint' => '/home',
+                  'options'    => 'hard,rw',
+                },
+              }
+            }}
+
+          it { is_expected.to compile.with_all_deps }
+
+          it { should contain_autofs__mount('home') }
+          it { is_expected.to contain_class('autofs::params') }
+          it { is_expected.to contain_class('autofs::install').that_comes_before('autofs::config') }
+          it { is_expected.to contain_class('autofs::config') }
+          it { is_expected.to contain_class('autofs::service').that_subscribes_to('autofs::config') }
+
+          it { is_expected.to contain_service('autofs') }
+          it { is_expected.to contain_package('autofs').with_ensure('present') }
+        end
       end
     end
   end

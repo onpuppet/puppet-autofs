@@ -6,7 +6,20 @@ describe 'autofs class' do
     # Using puppet_apply as a helper
     it 'should work idempotently with no errors' do
       pp = <<-EOS
-      class { 'autofs': }
+      class { 'autofs': 
+        mounts => {
+          'net' => { 
+            'remote'     => 'nfs:/server',
+            'mountpoint' => '/remote/server',
+            'options'    => 'soft,ro',
+          },
+          'home' => { 
+            'remote'     => 'nfs:/export/home',
+            'mountpoint' => '/home',
+            'options'    => 'hard,rw',
+          },
+        }
+      }
       EOS
 
       # Run it twice and test for idempotency

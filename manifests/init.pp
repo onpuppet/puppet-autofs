@@ -44,6 +44,7 @@ class autofs (
   $config_file_user  = $::autofs::params::config_file_user,
   $config_file_group = $::autofs::params::config_file_group,
   $config_file_mode  = $::autofs::params::config_file_mode,) inherits ::autofs::params {
+
   validate_hash($mounts)
   validate_string($package_name)
   validate_string($service_name)

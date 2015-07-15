@@ -18,7 +18,5 @@ class autofs::config {
     }
   }
 
-#  if (!empty($autofs::mounts)) {
-    create_resources(mount, $autofs::mounts)
-#  }
+  create_resources(autofs::mount, $autofs::mounts)
 }
