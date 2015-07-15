@@ -38,6 +38,7 @@
 #
 class autofs (
   $mounts            = $::autofs::params::mounts,
+  $mount_files       = $::autofs::params::mount_files,
   $package_name      = $::autofs::params::package_name,
   $service_name      = $::autofs::params::service_name,
   $config_file       = $::autofs::params::config_file,

@@ -19,4 +19,6 @@ class autofs::config {
   }
 
   create_resources(autofs::mount, $autofs::mounts)
+
+  create_resources(autofs::mountfile, $autofs::mount_files)
 }

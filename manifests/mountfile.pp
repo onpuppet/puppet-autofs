@@ -1,33 +1,23 @@
-# == Define: autofs::mapfile
+# == Define: autofs::mountfile
 #
 # Provide custom map file containing mounts
 #
-define autofs::mapfile ($directory, $source = '', $template = '') {
-  $manage_file_source = $source ? {
-    ''      => undef,
-    default => $source,
-  }
+define autofs::mountfile ($mountpoint, $file_source) {
+  $mountfile = "/etc/auto.$title"
 
-  $manage_file_content = $template ? {
-    ''      => undef,
-    default => template($template),
-  }
-
-  file { "/etc/auto.$title":
+  file { $mountfile:
     ensure  => 'present',
-    path    => "/etc/auto.$title",
     owner   => $autofs::config_file_user,
     group   => $autofs::config_file_group,
     mode    => $autofs::config_file_mode,
-    source  => $manage_file_source,
-    content => $manage_file_content,
+    source  => $file_source,
     notify  => Service[$autofs::service_name],
     require => Package[$autofs::package_name],
   }
 
   if (!defined(Concat::Fragment[$dirname])) {
     concat::fragment { $dirname:
-      ensure  => present,
+      ensure  => 'present',
       target  => $autofs::config_file,
       content => "${dirname} ${mountfile}\n",
       order   => 100,

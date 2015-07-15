@@ -22,15 +22,15 @@ describe 'autofs' do
           it { is_expected.to contain_service('autofs') }
           it { is_expected.to contain_package('autofs').with_ensure('present') }
         end
-        
+
         context "autofs class with mounts" do
           let(:params) {{
               'mounts' => {
-                'home' => { 
-                  'remote'     => 'nfs:/export/home',
-                  'mountpoint' => '/home',
-                  'options'    => 'hard,rw',
-                },
+              'home' => {
+              'remote'     => 'nfs:/export/home',
+              'mountpoint' => '/home',
+              'options'    => 'hard,rw',
+              },
               }
             }}
 
@@ -44,6 +44,21 @@ describe 'autofs' do
 
           it { is_expected.to contain_service('autofs') }
           it { is_expected.to contain_package('autofs').with_ensure('present') }
+        end
+
+        context "autofs with external mount files" do
+          let(:params) {{
+            'mount_files' => { 
+              'home' => { 
+                  'mountpoint' => '/home', 
+                  'file_source' => 'puppet:///modules/homefolder/auto.home' 
+              }
+            }
+          }}
+
+          it { is_expected.to compile.with_all_deps }
+
+          it { should contain_autofs__mountfile('home') }
         end
       end
     end
