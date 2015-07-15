@@ -22,8 +22,6 @@ describe 'autofs' do
           it { is_expected.to contain_service('autofs') }
           it { is_expected.to contain_package('autofs').with_ensure('present') }
         end
-      
-        grades = { "Jane Doe" => 10, "Jim Doe" => 6 }
         
         context "autofs class with mounts" do
           let(:params) {{
