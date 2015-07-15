@@ -1,9 +1,10 @@
 {
   "name": "Yuav-autofs",
   "version": "1.0.0",
-  "author": "Yuav",
+  "author": "Jon Skarpeteig",
   "summary": "Installs and configures autofs",
   "license": "Apache-2.0",
+  "tags": "autofs",
   "source": "https://github.com/Yuav/puppet-autofs",
   "project_page": "https://github.com/Yuav/puppet-autofs",
   "issues_url": "https://github.com/Yuav/puppet-autofs",
