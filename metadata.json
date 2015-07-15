@@ -1,5 +1,5 @@
 {
-  "name": "Yuav-autofs",
+  "name": "yuav-autofs",
   "version": "1.0.0",
   "author": "Jon Skarpeteig",
   "summary": "Installs and configures autofs",
@@ -11,7 +11,7 @@
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 1.0.0"
+      "version_requirement": ">= 4.0.0"
     },
     {
       "name": "puppetlabs-concat",
