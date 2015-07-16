@@ -15,8 +15,8 @@ define autofs::mountfile ($mountpoint, $file_source) {
     require => Package[$autofs::package_name],
   }
 
-  if (!defined(Concat::Fragment[$dirname])) {
-    concat::fragment { $dirname:
+  if (!defined(Concat::Fragment[$mountfile])) {
+    concat::fragment { $mountfile:
       ensure  => 'present',
       target  => $autofs::config_file,
       content => "${dirname} ${mountfile}\n",
