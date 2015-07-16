@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rodjek/rspec-puppet.git
-  revision: d2bbad3f3ff4c8327a6f60917b93c02de49429fc
+  revision: 7c516f20149c191f11374a9f90ae21e9452ff8e0
   specs:
     rspec-puppet (2.2.1.pre)
       rspec
@@ -42,7 +42,7 @@ GEM
       rbvmomi (~> 1.8)
       rsync (~> 1.0.9)
       unf (~> 0.1)
-    beaker-rspec (5.1.0)
+    beaker-rspec (5.2.0)
       beaker (~> 2.0)
       rspec
       serverspec (~> 2)
@@ -342,7 +342,7 @@ GEM
       sfl
     thor (0.19.1)
     thread_safe (0.3.5)
-    travis (1.7.7)
+    travis (1.8.0)
       addressable (~> 2.3)
       backports
       faraday (~> 0.9)

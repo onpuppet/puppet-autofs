@@ -19,7 +19,7 @@ define autofs::mountfile ($mountpoint, $file_source) {
     concat::fragment { $mountfile:
       ensure  => 'present',
       target  => $autofs::config_file,
-      content => "${dirname} ${mountfile}\n",
+      content => "${mountpoint} ${mountfile}\n",
       order   => 100,
       notify  => Service[$autofs::service_name],
     }
