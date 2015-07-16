@@ -3,7 +3,7 @@
 # Provide custom map file containing mounts
 #
 define autofs::mountfile ($mountpoint, $file_source) {
-  $mountfile = "/etc/auto.$title"
+  $mountfile = "/etc/auto.${title}"
 
   file { $mountfile:
     ensure  => 'present',
