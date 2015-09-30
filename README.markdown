@@ -54,6 +54,20 @@ Using the autofs::mount directly:
     
     autofs::mount('nfs.com:/export/home','/home','hard,rw')
 
+Supplying a custom automount file:
+
+    class { 'autofs':
+        mount_files' => {
+            'home' => {
+                mountpoint => '/home',
+                file_source => 'puppet:///modules/mymodule/auto.home'
+            }
+        }
+
+Using autofs::mountfile directly
+
+    autofs::mountfile('/home', 'puppet:///modules/mymodule/auto.home'
+
 ## Limitations
 
 Only tested with Ubuntu 12.04, Ubuntu 14.04 and CentOS 7. Other OS'es might work, but are not tested
