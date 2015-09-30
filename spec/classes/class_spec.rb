@@ -48,17 +48,43 @@ describe 'autofs' do
 
         context "autofs with external mount files" do
           let(:params) {{
-            'mount_files' => { 
-              'home' => { 
-                  'mountpoint' => '/home', 
-                  'file_source' => 'puppet:///modules/homefolder/auto.home' 
+              'mount_files' => {
+                'home' => {
+                  'mountpoint' => '/home',
+                  'file_source' => 'puppet:///modules/homefolder/auto.home'
+                }
               }
-            }
-          }}
+            }}
 
           it { is_expected.to compile.with_all_deps }
 
           it { should contain_autofs__mountfile('home') }
+        end
+
+        context "automount folder in /" do
+          let(:params) {{
+                'mounts' => {
+                  'testfolder' => {
+                    'remote'     => 'nfs:/export/folder',
+                    'options'    => 'hard,rw',
+                    'mountpoint' => '/remote',
+                 }
+              }
+            }}
+
+          it { is_expected.to compile.with_all_deps }
+          it { should contain_autofs__mount('testfolder') }
+          it { should contain_concat('/etc/auto.master') }
+          it { should contain_concat__fragment('auto.testfolder') }
+          it { should contain_concat__fragment('/-') }
+          it 'should generate the automount configurations' do
+            contentmaster = catalogue.resource('concat::fragment', '/-').send(:parameters)[:content]
+            contentmaster.should_not be_empty
+            contentmaster.should match('/- /etc/auto.testfolder')
+            contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder').send(:parameters)[:content]
+            contenttestfolder.should_not be_empty
+            contenttestfolder.should match('remote hard,rw nfs:/export/folder')
+          end
         end
       end
     end

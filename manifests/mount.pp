@@ -3,8 +3,13 @@
 # Add mount point to autofs configuration
 #
 define autofs::mount ($remote, $mountpoint, $options = '') {
+  if (dirname($mountpoint) == '/') {
+    $dirname = '/-'
+  } else {
+    $dirname = dirname($mountpoint)
+  }
+
   $basename = basename($mountpoint)
-  $dirname = dirname($mountpoint)
   $mountfile = "/etc/auto.${title}"
 
   if (!defined(Concat[$mountfile])) {
