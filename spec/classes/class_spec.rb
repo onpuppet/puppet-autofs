@@ -83,7 +83,7 @@ describe 'autofs' do
             contentmaster.should match('/- /etc/auto.testfolder')
             contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder').send(:parameters)[:content]
             contenttestfolder.should_not be_empty
-            contenttestfolder.should match('remote hard,rw nfs:/export/folder')
+            contenttestfolder.should match('/remote hard,rw nfs:/export/folder')
           end
         end
       end

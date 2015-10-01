@@ -5,11 +5,12 @@
 define autofs::mount ($remote, $mountpoint, $options = '') {
   if (dirname($mountpoint) == '/') {
     $dirname = '/-'
+    $basename = $mountpoint
   } else {
     $dirname = dirname($mountpoint)
+    $basename = basename($mountpoint)
   }
 
-  $basename = basename($mountpoint)
   $mountfile = "/etc/auto.${title}"
 
   if (!defined(Concat[$mountfile])) {
