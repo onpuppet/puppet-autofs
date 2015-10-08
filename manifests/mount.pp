@@ -38,13 +38,12 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
     notify  => Service[$autofs::service_name],
   }
 
-  if (!defined(Concat::Fragment[$dirname])) {
-    concat::fragment { $dirname:
-      ensure  => present,
-      target  => $autofs::config_file,
-      content => "${dirname} ${mountfile}\n",
-      order   => 100,
-      notify  => Service[$autofs::service_name],
+  # Allow multiple mounts under the same parent dir
+  if (!defined(Autofs::Mountentry[$dirname])) {
+    autofs::mountentry { $dirname:
+      mountpoint => $dirname,
+      mountfile  => $mountfile,
     }
   }
+
 }

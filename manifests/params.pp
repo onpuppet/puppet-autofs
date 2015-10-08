@@ -10,6 +10,9 @@ class autofs::params {
   $mount_files = {
   }
 
+  $mount_entries = {
+  }
+
   $config_file = $::operatingsystem ? {
     default => '/etc/auto.master',
   }

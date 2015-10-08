@@ -86,6 +86,27 @@ describe 'autofs' do
             contenttestfolder.should match('/remote hard,rw nfs:/export/folder')
           end
         end
+        
+        context "autofs with custom mount entry" do
+          let(:params) {{
+              'mount_entries' => {
+                'home' => {
+                  'mountpoint' => '/home',
+                  'mountfile' => '/opt/auto.home',
+                  'options' => '-t 60',
+                }
+              }
+            }}
+
+          it { is_expected.to compile.with_all_deps }
+          it { should contain_autofs__mountentry('home') }            
+          it 'should populate auto.master' do
+            contentmaster = catalogue.resource('concat::fragment', '/home').send(:parameters)[:content]
+            contentmaster.should_not be_empty
+            contentmaster.should match('/home /opt/auto.home -t 60')
+          end
+            
+        end
       end
     end
   end

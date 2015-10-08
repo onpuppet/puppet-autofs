@@ -18,6 +18,19 @@
 #              },
 #    }
 #
+# [*mount_files*]
+#   A hash of files to populate and include in auto.master
+#   Example:
+#     {
+#       'home' => {
+#         mountpoint => '/home',
+#         file_source => 'puppet:///modules/mymodule/auto.home'
+#       }
+#     }
+#
+# [*mount_entries*]
+#   A hash of entries to be added to auto.master
+#
 # [*package_name*]
 #   Explanation of what this parameter affects and what it defaults to.
 #
@@ -39,6 +52,7 @@
 class autofs (
   $mounts            = $::autofs::params::mounts,
   $mount_files       = $::autofs::params::mount_files,
+  $mount_entries     = $::autofs::params::mount_entries,
   $package_name      = $::autofs::params::package_name,
   $service_name      = $::autofs::params::service_name,
   $config_file       = $::autofs::params::config_file,
@@ -47,6 +61,8 @@ class autofs (
   $config_file_mode  = $::autofs::params::config_file_mode,) inherits ::autofs::params {
 
   validate_hash($mounts)
+  validate_hash($mount_files)
+  validate_hash($mount_entries)
   validate_string($package_name)
   validate_string($service_name)
   validate_string($config_file)

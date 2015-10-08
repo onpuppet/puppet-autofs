@@ -4,14 +4,12 @@
 	<target name="build" depends="clean,bundle-install,syntax,lint">
 		<antcall target="spec" />
 		<antcall target="acceptance" />
-		<antcall target="doc" />
 	</target>
 
 	<target name="clean">
                 <delete includeemptydirs="true" removeNotFollowedSymlinks="true" failonerror="false">
                     <fileset followSymlinks="no" dir="${basedir}/spec/fixtures/modules" includes="**/*"/>
                 </delete>
-                <delete dir="${basedir}/doc" />
 	</target>
 
 	<target name="rvm" description="Prepare RVM">
@@ -91,18 +89,4 @@
 		</exec>
 	</target>
 
-	<target name="doc">
-		<mkdir dir="${basedir}/manifests" />
-		<exec executable="bash" failonerror="true">
-			<arg value="-c" />
-			<arg value="puppet doc --mode rdoc --manifestdir manifests/ --modulepath ./modules/ --outputdir doc" />
-		</exec>
-		<move todir="${basedir}/doc/files/modules" includeEmptyDirs="yes" verbose="true" failonerror="false">
-			<fileset dir="${basedir}/doc/files/${basedir}/modules" />
-		</move>
-		<exec executable="bash" failonerror="true">
-			<arg value="-c" />
-			<arg value="grep -l -R ${basedir} * | while read fname; do perl -pi -e 's@${basedir}/@/@g' $fname; done" />
-		</exec>
-	</target>
 </project>
