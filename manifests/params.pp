@@ -14,7 +14,8 @@ class autofs::params {
   }
 
   $config_file = $::operatingsystem ? {
-    default => '/etc/auto.master',
+    'Archlinux' => '/etc/autofs/auto.master',
+    default     => '/etc/auto.master',
   }
 
   $config_file_mode = $::operatingsystem ? {
@@ -30,11 +31,7 @@ class autofs::params {
   }
 
   case $::osfamily {
-    'Debian'           : {
-      $package_name = 'autofs'
-      $service_name = 'autofs'
-    }
-    'RedHat', 'Amazon' : {
+    'Debian', 'Archlinux', 'RedHat', 'Amazon' : {
       $package_name = 'autofs'
       $service_name = 'autofs'
     }
