@@ -14,11 +14,11 @@
 
 ## Overview
 
-Installs and configures autofs which provides automount functionality. Tested with Ubuntu 12.04, Ubuntu 14.04 and CentOS 7
+Installs and configures autofs which provides automount functionality.
 
 ## Module Description
 
-Installs and configures autofs which provides automount functionality. Tested with Ubuntu 12.04, Ubuntu 14.04 and CentOS 7
+Installs and configures autofs which provides automount functionality.
 
 ## Setup
 
@@ -47,6 +47,11 @@ Example usage for automounting home folders:
                 mountpoint => '/home',
                 options    => 'hard,rw',
             },
+            'net' => {
+                remote     => 'nfs:/folder',
+                mountpoint => '/remote/folder',
+                options    => 'soft,ro',
+            },
         }
     }
     
@@ -61,6 +66,10 @@ Supplying a custom automount file:
             'home' => {
                 mountpoint => '/home',
                 file_source => 'puppet:///modules/mymodule/auto.home'
+            },
+            'net' => {
+                mountpoint => '/remote',
+                file_source => 'puppet:///modules/mymodule/auto.net'
             }
         }
 
@@ -70,4 +79,4 @@ Using autofs::mountfile directly
 
 ## Limitations
 
-Only tested with Ubuntu 12.04, Ubuntu 14.04 and CentOS 7. Other OS'es might work, but are not tested
+Only tested with Ubuntu 12.04, Ubuntu 14.04, Archlinux, CentOS 6 and CentOS 7. Other OS'es might work, but are not tested
