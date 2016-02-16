@@ -15,7 +15,7 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
 
   if (!defined(Concat[$mountfile])) {
     concat { $mountfile:
-      owner  => $autofs::config_file_user,
+      owner  => $autofs::config_file_owner,
       group  => $autofs::config_file_group,
       mode   => $autofs::config_file_mode,
       notify => Service[$autofs::service_name],

@@ -7,7 +7,7 @@ define autofs::mountfile ($mountpoint, $file_source) {
 
   file { $mountfile:
     ensure  => 'present',
-    owner   => $autofs::config_file_user,
+    owner   => $autofs::config_file_owner,
     group   => $autofs::config_file_group,
     mode    => $autofs::config_file_mode,
     source  => $file_source,

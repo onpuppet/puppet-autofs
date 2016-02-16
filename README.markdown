@@ -28,7 +28,7 @@ Installs and configures autofs which provides automount functionality.
 
 ### Setup Requirements
 
-Requires puppetlabs-stdlib and puppetlabs-concat modules 
+Requires puppetlabs-stdlib and puppetlabs-concat modules
 
 ### Beginning with autofs
 
@@ -38,9 +38,9 @@ Basic installation:
 
 ## Usage
 
-Example usage for automounting home folders: 
+Example usage for automounting home folders:
 
-    class { 'autofs': 
+    class { 'autofs':
         mounts => {
             'home' => {
                 remote     => 'nfs.com:/export/home',
@@ -54,9 +54,9 @@ Example usage for automounting home folders:
             },
         }
     }
-    
+
 Using the autofs::mount directly:
-    
+
     autofs::mount('nfs.com:/export/home','/home','hard,rw')
 
 Supplying a custom automount file:
@@ -80,3 +80,6 @@ Using autofs::mountfile directly
 ## Limitations
 
 Only tested with Ubuntu 12.04, Ubuntu 14.04, Archlinux, CentOS 6 and CentOS 7. Other OS'es might work, but are not tested
+
+puppet-autofs needs the method basename from puppet stdlib, which got added with stdlib version 4.6
+However, current version in debian jessie is 4.3.2

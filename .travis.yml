@@ -1,38 +1,75 @@
----
 language: ruby
-bundler_args: --without development system_tests
+sudo: true
+cache: bundler
+bundler_args: "--without development system_tests"
 before_install: rm Gemfile.lock || true
-rvm:
-  - 1.8.7
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
-script: bundle exec rake test
-env:
-  - PUPPET_VERSION="~> 2.7.0"
-  - PUPPET_VERSION="~> 3.2.0"
-  - PUPPET_VERSION="~> 3.3.0"
-  - PUPPET_VERSION="~> 3.4.0"
-  - PUPPET_VERSION="~> 3.5.0" STRICT_VARIABLES=yes
-  - PUPPET_VERSION="~> 3.6.0" STRICT_VARIABLES=yes
-  - PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes
-  - PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes FUTURE_PARSER=yes
+script:
+- bundle exec rake syntax
+- bundle exec rake lint
+- bundle exec rake spec SPEC_OPTS='--format documentation'
+- bundle exec rake metadata_lint
+- bundle exec rake rubocop
 matrix:
-  exclude:
-  # Ruby 1.9.3
+  fast_finish: true
+  include:
   - rvm: 1.9.3
-    env: PUPPET_VERSION="~> 2.7.0"
-    
-  # Ruby 2.0.0
+    env: PUPPET_GEM_VERSION="~> 3.0"
   - rvm: 2.0.0
-    env: PUPPET_VERSION="~> 2.7.0"
-    
-  # Ruby 2.1.0
-  - rvm: 2.1.0
-    env: PUPPET_VERSION="~> 2.7.0"
-  - rvm: 2.1.0
-    env: PUPPET_VERSION="~> 3.2.0"
-  - rvm: 2.1.0
-    env: PUPPET_VERSION="~> 3.3.0"
-  - rvm: 2.1.0
-    env: PUPPET_VERSION="~> 3.4.0"
+    env: PUPPET_GEM_VERSION="~> 3.0"
+  - rvm: 2.0.0
+    env: PUPPET_GEM_VERSION="~> 3.0" FUTURE_PARSER="yes"
+  - rvm: 2.1.7
+    env: PUPPET_GEM_VERSION="~> 4.0"
+  - rvm: default
+    sudo: required
+    dist: trusty
+    services: docker
+    env: BEAKER_set="ubuntu-1204"
+    bundler_args: 
+    script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
+  - rvm: default
+    sudo: required
+    dist: trusty
+    services: docker
+    env: BEAKER_set="ubuntu-1404"
+    bundler_args: 
+    script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
+  - rvm: default
+    sudo: required
+    dist: trusty
+    services: docker
+    env: BEAKER_set="debian-7"
+    bundler_args: 
+    script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
+  - rvm: default
+    sudo: required
+    dist: trusty
+    services: docker
+    env: BEAKER_set="debian-8"
+    bundler_args: 
+    script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
+  - rvm: default
+    sudo: required
+    dist: trusty
+    services: docker
+    env: BEAKER_set="centos-6"
+    bundler_args: 
+    script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
+  - rvm: default
+    sudo: required
+    dist: trusty
+    services: docker
+    env: BEAKER_set="centos-7"
+    bundler_args: 
+    script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
+notifications:
+  email: true
+deploy:
+  provider: puppetforge
+  user: yuav
+  password:
+    secure: "ZjnryQvoKXpvL8mCF+4VSQDsE/PxRcMuzGHllpolEz9EIFF0phuaJdR6QSkP+LdRvJQzxH+BttoMZH4fbX8JcYq98xs4AtMRAhWy8HzOUyeHyYikbJh7jhCJATFmbIx9DhyVYOXMkaewxkujbUH6L6xB7eKX5NIOTCywbjIqAl07F541OFublIxnThS2v6mUpoKJSnjvn8lBnSjilXgHHoaud8NusGbWZaTjxqePvtYcHrBhAGuHv0Sd6dE4c74C90Psb4oUKMoFs7CWlQweX8oSrMrbDuGyCXwSlPn62WHvE7OpLxfTnMF9RvvypVmalSgrhJU2nX3OsN16Md/+1CkL6x1vlmTnU+QHt+oPI6GBvNhMrudDjVEzxUIjP2fsDp7q7TlGmbOKY9/11YS/eY7vcLWWh0oN7rSrUdvYPZHNKcqYExnAppWTZ5VyNZOktNMGi80EM8nK585bjNmQpvf7AbDnI5jxFOyE1w/38boPt2sjIZ960/qUllgGqD0DV+xqY4Ctj6Wd4qshMdOE344Nar9w42G99KxLOG6MAKwDqvFwGuM03brPkudKDlCziIZOQKQeVP1w0Qm1js1d429QS3WpuTDlNbE0div/ZTW95ipWluvj3Ru7/D4rJNifvN/t6AlKBHejLlJFLn2e5oq69q2ZZ+LRarsy23jzTCc="
+  on:
+    tags: true
+    all_branches: true
+    rvm: 2.1.7

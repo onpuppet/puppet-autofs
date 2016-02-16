@@ -24,15 +24,17 @@ describe 'autofs' do
         end
 
         context "autofs class with mounts" do
-          let(:params) {{
+          let(:params) do
+            {
               'mounts' => {
-              'home' => {
-              'remote'     => 'nfs:/export/home',
-              'mountpoint' => '/home',
-              'options'    => 'hard,rw',
-              },
+                'home' => {
+                  'remote'     => 'nfs:/export/home',
+                  'mountpoint' => '/home',
+                  'options'    => 'hard,rw'
+                }
               }
-            }}
+            }
+          end
 
           it { is_expected.to compile.with_all_deps }
 
@@ -47,14 +49,16 @@ describe 'autofs' do
         end
 
         context "autofs with external mount files" do
-          let(:params) {{
+          let(:params) do
+            {
               'mount_files' => {
                 'home' => {
                   'mountpoint' => '/home',
                   'file_source' => 'puppet:///modules/homefolder/auto.home'
                 }
               }
-            }}
+            }
+          end
 
           it { is_expected.to compile.with_all_deps }
 
@@ -62,15 +66,17 @@ describe 'autofs' do
         end
 
         context "automount folder in /" do
-          let(:params) {{
-                'mounts' => {
-                  'testfolder' => {
-                    'remote'     => 'nfs:/export/folder',
-                    'options'    => 'hard,rw',
-                    'mountpoint' => '/remote',
-                 }
+          let(:params) do
+            {
+              'mounts' => {
+                'testfolder' => {
+                  'remote'     => 'nfs:/export/folder',
+                  'options'    => 'hard,rw',
+                  'mountpoint' => '/remote'
+                }
               }
-            }}
+            }
+          end
 
           it { is_expected.to compile.with_all_deps }
           it { should contain_autofs__mount('testfolder') }
@@ -86,9 +92,10 @@ describe 'autofs' do
             contenttestfolder.should match('/remote hard,rw nfs:/export/folder')
           end
         end
-        
+
         context "autofs with custom mount entry" do
-          let(:params) {{
+          let(:params) do
+            {
               'mount_entries' => {
                 'home' => {
                   'mountpoint' => '/home',
@@ -96,16 +103,16 @@ describe 'autofs' do
                   'options' => '-t 60',
                 }
               }
-            }}
+            }
+          end
 
           it { is_expected.to compile.with_all_deps }
-          it { should contain_autofs__mountentry('home') }            
+          it { should contain_autofs__mountentry('home') }
           it 'should populate auto.master' do
             contentmaster = catalogue.resource('concat::fragment', '/home').send(:parameters)[:content]
             contentmaster.should_not be_empty
             contentmaster.should match('/home /opt/auto.home -t 60')
           end
-            
         end
       end
     end
@@ -113,11 +120,12 @@ describe 'autofs' do
 
   context 'unsupported operating system' do
     describe 'autofs class without any parameters on Solaris/Nexenta' do
-      let(:facts) {{
+      let(:facts) do
+        {
           :osfamily        => 'Solaris',
-          :operatingsystem => 'Nexenta',
-        }}
-
+          :operatingsystem => 'Nexenta'
+        }
+      end
       it { expect { is_expected.to contain_package('autofs') }.to raise_error(Puppet::Error, /Nexenta not supported/) }
     end
   end

@@ -5,7 +5,7 @@
 class autofs::config {
   if !defined(Concat[$autofs::config_file]) {
     concat { $autofs::config_file:
-      owner => $autofs::config_file_user,
+      owner => $autofs::config_file_owner,
       group => $autofs::config_file_group,
       mode  => $autofs::config_file_mode,
     }

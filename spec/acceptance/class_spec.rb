@@ -1,19 +1,18 @@
 require 'spec_helper_acceptance'
 
 describe 'autofs class' do
-
   context 'default parameters' do
     # Using puppet_apply as a helper
     it 'should work idempotently with no errors' do
       pp = <<-EOS
-      class { 'autofs': 
+      class { 'autofs':
         mounts => {
-          'net' => { 
+          'net' => {
             'remote'     => 'nfs:/server',
             'mountpoint' => '/remote/server',
             'options'    => 'soft,ro',
           },
-          'home' => { 
+          'home' => {
             'remote'     => 'nfs:/export/home',
             'mountpoint' => '/home',
             'options'    => 'hard,rw',
