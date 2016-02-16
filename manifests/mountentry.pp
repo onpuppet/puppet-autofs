@@ -4,7 +4,7 @@
 #
 define autofs::mountentry ($mountpoint, $mountfile, $options = '') {
 
-  concat::fragment { $name:
+  concat::fragment { $mountpoint:
     ensure  => 'present',
     target  => $autofs::config_file,
     content => "${mountpoint} ${mountfile} ${options}\n",

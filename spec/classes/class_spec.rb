@@ -65,7 +65,7 @@ describe 'autofs' do
           it { should contain_autofs__mountfile('home') }
         end
 
-        context "automount folder in /" do
+        context "automount folders in /" do
           let(:params) do
             {
               'mounts' => {
@@ -73,6 +73,11 @@ describe 'autofs' do
                   'remote'     => 'nfs:/export/folder',
                   'options'    => 'hard,rw',
                   'mountpoint' => '/remote'
+                },
+                'testfolder2' => {
+                  'remote'     => 'nfs:/export/folder2',
+                  'options'    => 'hard,rw',
+                  'mountpoint' => '/remote2'
                 }
               }
             }
@@ -82,14 +87,15 @@ describe 'autofs' do
           it { should contain_autofs__mount('testfolder') }
           it { should contain_concat('/etc/auto.master') }
           it { should contain_concat__fragment('auto.testfolder') }
-          it { should contain_concat__fragment('/-') }
+          it { should contain_concat__fragment('-/') }
           it 'should generate the automount configurations' do
-            contentmaster = catalogue.resource('concat::fragment', '/-').send(:parameters)[:content]
+            contentmaster = catalogue.resource('concat::fragment', '-/').send(:parameters)[:content]
             contentmaster.should_not be_empty
             contentmaster.should match('/- /etc/auto.testfolder')
             contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder').send(:parameters)[:content]
             contenttestfolder.should_not be_empty
             contenttestfolder.should match('/remote hard,rw nfs:/export/folder')
+            contenttestfolder.should match('/remote2 hard,rw nfs:/export/folder2')
           end
         end
 
