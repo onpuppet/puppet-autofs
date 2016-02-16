@@ -65,12 +65,53 @@ describe 'autofs' do
           it { should contain_autofs__mountfile('home') }
         end
 
+        context "automount folder in nested directory structure" do
+          let(:params) do
+           {
+             'mounts' => {
+               'testfolder1' => {
+                 'remote'     => 'nfs:/export/folder1',
+                 'options'    => 'hard,rw',
+                 'mountpoint' => '/remote/a/b/folder1'
+               },
+               'testfolder2' => {
+                 'remote'     => 'nfs:/export/folder2',
+                 'options'    => 'hard,rw',
+                 'mountpoint' => '/remote/a/b/folder2'
+               }
+             }
+           }
+         end
+
+         it { is_expected.to compile.with_all_deps }
+         it { should contain_autofs__mount('testfolder1') }
+         it { should contain_concat('/etc/auto.master') }
+         it { should contain_concat__fragment('auto.testfolder1') }
+         it { should contain_concat__fragment('testfolder1') }
+         it 'should generate the automount configurations for testfolder1' do
+           contentmaster = catalogue.resource('concat::fragment', 'testfolder1').send(:parameters)[:content]
+           contentmaster.should_not be_empty
+           contentmaster.should match('/remote/a/b /etc/auto.testfolder1')
+           contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder1').send(:parameters)[:content]
+           contenttestfolder.should_not be_empty
+           contenttestfolder.should match('folder1 hard,rw nfs:/export/folder1')
+         end
+          it 'should generate the automount configurations for testfolder2' do
+            contentmaster = catalogue.resource('concat::fragment', 'testfolder2').send(:parameters)[:content]
+            contentmaster.should_not be_empty
+            contentmaster.should match('/remote/a/b /etc/auto.testfolder2')
+            contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder2').send(:parameters)[:content]
+            contenttestfolder.should_not be_empty
+            contenttestfolder.should match('folder2 hard,rw nfs:/export/folder2')
+          end
+        end
+
         context "automount folders in /" do
           let(:params) do
             {
               'mounts' => {
-                'testfolder' => {
-                  'remote'     => 'nfs:/export/folder',
+                'testfolder1' => {
+                  'remote'     => 'nfs:/export/folder1',
                   'options'    => 'hard,rw',
                   'mountpoint' => '/remote'
                 },
@@ -84,17 +125,24 @@ describe 'autofs' do
           end
 
           it { is_expected.to compile.with_all_deps }
-          it { should contain_autofs__mount('testfolder') }
+          it { should contain_autofs__mount('testfolder1') }
           it { should contain_concat('/etc/auto.master') }
-          it { should contain_concat__fragment('auto.testfolder') }
-          it { should contain_concat__fragment('-/') }
-          it 'should generate the automount configurations' do
-            contentmaster = catalogue.resource('concat::fragment', '-/').send(:parameters)[:content]
+          it { should contain_concat__fragment('auto.testfolder1') }
+          it { should contain_concat__fragment('testfolder1') }
+          it 'should generate the automount configurations for testfolder1' do
+            contentmaster = catalogue.resource('concat::fragment', 'testfolder1').send(:parameters)[:content]
             contentmaster.should_not be_empty
-            contentmaster.should match('/- /etc/auto.testfolder')
-            contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder').send(:parameters)[:content]
+            contentmaster.should match('/- /etc/auto.testfolder1')
+            contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder1').send(:parameters)[:content]
             contenttestfolder.should_not be_empty
-            contenttestfolder.should match('/remote hard,rw nfs:/export/folder')
+            contenttestfolder.should match('/remote hard,rw nfs:/export/folder1')
+          end
+          it 'should generate the automount configurations for testfolder2' do
+            contentmaster = catalogue.resource('concat::fragment', 'testfolder2').send(:parameters)[:content]
+            contentmaster.should_not be_empty
+            contentmaster.should match('/- /etc/auto.testfolder2')
+            contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder2').send(:parameters)[:content]
+            contenttestfolder.should_not be_empty
             contenttestfolder.should match('/remote2 hard,rw nfs:/export/folder2')
           end
         end
@@ -115,7 +163,7 @@ describe 'autofs' do
           it { is_expected.to compile.with_all_deps }
           it { should contain_autofs__mountentry('home') }
           it 'should populate auto.master' do
-            contentmaster = catalogue.resource('concat::fragment', '/home').send(:parameters)[:content]
+            contentmaster = catalogue.resource('concat::fragment', 'home').send(:parameters)[:content]
             contentmaster.should_not be_empty
             contentmaster.should match('/home /opt/auto.home -t 60')
           end

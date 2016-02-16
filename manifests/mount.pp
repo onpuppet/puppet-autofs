@@ -39,8 +39,8 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
   }
 
   # Allow multiple mounts under the same parent dir
-  if (!defined(Autofs::Mountentry[$dirname])) {
-    autofs::mountentry { $dirname:
+  if (!defined(Autofs::Mountentry[$title])) {
+    autofs::mountentry { $title:
       mountpoint => $dirname,
       mountfile  => $mountfile,
     }
