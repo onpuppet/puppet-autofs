@@ -11,7 +11,6 @@ class autofs::config {
     }
 
     concat::fragment { "${autofs::config_file} preamble":
-      ensure  => present,
       target  => $autofs::config_file,
       content => "# File managed by puppet, do not edit\n",
       order   => '01',
