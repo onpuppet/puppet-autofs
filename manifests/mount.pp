@@ -22,7 +22,6 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
     }
 
     concat::fragment { "${mountfile} preamble":
-      ensure  => present,
       target  => $mountfile,
       content => "# File managed by puppet, do not edit\n",
       order   => '01',
@@ -31,7 +30,6 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
   }
 
   concat::fragment { "auto.${title}":
-    ensure  => present,
     target  => $mountfile,
     content => "${basename} ${options} ${remote}\n",
     order   => 100,

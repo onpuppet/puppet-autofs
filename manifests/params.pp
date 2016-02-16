@@ -19,7 +19,7 @@ class autofs::params {
   }
 
   $config_file_mode = $::operatingsystem ? {
-    default => '0644',
+    default => '0755',
   }
 
   $config_file_owner = $::operatingsystem ? {
