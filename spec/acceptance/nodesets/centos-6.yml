@@ -1,8 +1,5 @@
-HOSTS:
+  HOSTS:
   centos-6-x64:
-    default_apply_opts:
-      order: random
-      strict_variables:
     platform: el-6-x86_64
     hypervisor : docker
     image: centos:6

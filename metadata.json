@@ -8,6 +8,10 @@
   "source": "https://github.com/Yuav/puppet-autofs",
   "project_page": "https://github.com/Yuav/puppet-autofs",
   "issues_url": "https://github.com/Yuav/puppet-autofs",
+  "tags": [
+    "autofs",
+    "mount"
+  ],
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",

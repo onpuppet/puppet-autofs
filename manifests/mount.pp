@@ -32,7 +32,7 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
   concat::fragment { "auto.${title}":
     target  => $mountfile,
     content => "${basename} ${options} ${remote}\n",
-    order   => 100,
+    order   => '10',
     notify  => Service[$autofs::service_name],
   }
 
