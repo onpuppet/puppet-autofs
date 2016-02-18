@@ -7,11 +7,6 @@ describe 'autofs class' do
       pp = <<-EOS
       class { 'autofs':
         mounts => {
-          'net' => {
-            'remote'     => 'nfs:/server',
-            'mountpoint' => '/remote/server',
-            'options'    => 'soft,ro',
-          },
           'home' => {
             'remote'     => 'nfs:/export/home',
             'mountpoint' => '/home',
