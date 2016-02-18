@@ -85,7 +85,11 @@ describe 'autofs' do
 
          it { is_expected.to compile.with_all_deps }
          it { should contain_autofs__mount('testfolder1') }
-         it { should contain_concat('/etc/auto.master') }
+         if (os =~ /archlinux/)
+           it { should contain_concat('/etc/autofs/auto.master') }
+         else
+           it { should contain_concat('/etc/auto.master') }
+         end
          it { should contain_concat__fragment('auto.testfolder1') }
          it { should contain_concat__fragment('testfolder1') }
          it 'should generate the automount configurations for testfolder1' do
@@ -126,7 +130,11 @@ describe 'autofs' do
 
           it { is_expected.to compile.with_all_deps }
           it { should contain_autofs__mount('testfolder1') }
-          it { should contain_concat('/etc/auto.master') }
+          if (os =~ /archlinux/)
+            it { should contain_concat('/etc/autofs/auto.master') }
+          else
+            it { should contain_concat('/etc/auto.master') }
+          end
           it { should contain_concat__fragment('auto.testfolder1') }
           it { should contain_concat__fragment('testfolder1') }
           it 'should generate the automount configurations for testfolder1' do
