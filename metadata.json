@@ -24,6 +24,9 @@
   ],
   "operatingsystem_support": [
     {
+        "operatingsystem": "ArchLinux"
+    },
+    {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "6",
