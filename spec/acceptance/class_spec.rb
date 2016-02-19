@@ -11,7 +11,7 @@ describe 'autofs class' do
             'remote'     => 'nfs:/export/home',
             'mountpoint' => '/home',
             'options'    => 'hard,rw',
-          },
+          }
         }
       }
       EOS
