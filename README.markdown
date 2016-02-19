@@ -10,7 +10,6 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with autofs](#beginning-with-autofs)
 4. [Usage - Configuration options and additional functionality](#usage)
-5. [Limitations - OS compatibility, etc.](#limitations)
 
 ## Overview
 
@@ -76,8 +75,3 @@ Supplying a custom automount file:
 Using autofs::mountfile directly
 
     autofs::mountfile('/home', 'puppet:///modules/mymodule/auto.home'
-
-## Limitations
-
-puppet-autofs needs the method basename from puppet stdlib, which got added with stdlib version 4.6
-However, current version in debian jessie is 4.3.2
