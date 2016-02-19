@@ -9,6 +9,8 @@ describe 'autofs' do
             :concat_basedir => '/etc/puppet' })
         end
 
+        master_file = if (os =~ /archlinux/) then '/etc/autofs/auto.master' else '/etc/auto.master' end
+
         context "autofs class without any parameters" do
           let(:params) {{ }}
 
@@ -27,11 +29,11 @@ describe 'autofs' do
           let(:params) do
             {
               'mounts' => {
-                'home' => {
-                  'remote'     => 'nfs:/export/home',
-                  'mountpoint' => '/home',
-                  'options'    => 'hard,rw'
-                }
+              'home' => {
+              'remote'     => 'nfs:/export/home',
+              'mountpoint' => '/home',
+              'options'    => 'hard,rw'
+              }
               }
             }
           end
@@ -53,61 +55,60 @@ describe 'autofs' do
             {
               'mount_files' => {
                 'home' => {
-                  'mountpoint' => '/home',
-                  'file_source' => 'puppet:///modules/homefolder/auto.home'
+                'mountpoint' => '/home',
+                'file_source' => 'puppet:///modules/homefolder/auto.home'
                 }
               }
             }
           end
 
           it { is_expected.to compile.with_all_deps }
-
           it { should contain_autofs__mountfile('home') }
+          it { should contain_file('/etc/auto.home') }
         end
 
         context "automount folder in nested directory structure" do
           let(:params) do
-           {
-             'mounts' => {
-               'testfolder1' => {
-                 'remote'     => 'nfs:/export/folder1',
-                 'options'    => 'hard,rw',
-                 'mountpoint' => '/remote/a/b/folder1'
-               },
-               'testfolder2' => {
-                 'remote'     => 'nfs:/export/folder2',
-                 'options'    => 'hard,rw',
-                 'mountpoint' => '/remote/a/b/folder2'
-               }
-             }
-           }
-         end
-
-         it { is_expected.to compile.with_all_deps }
-         it { should contain_autofs__mount('testfolder1') }
-         if (os =~ /archlinux/)
-           it { should contain_concat('/etc/autofs/auto.master') }
-         else
-           it { should contain_concat('/etc/auto.master') }
-         end
-         it { should contain_concat__fragment('auto.testfolder1') }
-         it { should contain_concat__fragment('testfolder1') }
-         it 'should generate the automount configurations for testfolder1' do
-           contentmaster = catalogue.resource('concat::fragment', 'testfolder1').send(:parameters)[:content]
-           contentmaster.should_not be_empty
-           contentmaster.should match('/remote/a/b /etc/auto.testfolder1')
-           contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder1').send(:parameters)[:content]
-           contenttestfolder.should_not be_empty
-           contenttestfolder.should match('folder1 hard,rw nfs:/export/folder1')
-         end
-          it 'should generate the automount configurations for testfolder2' do
-            contentmaster = catalogue.resource('concat::fragment', 'testfolder2').send(:parameters)[:content]
-            contentmaster.should_not be_empty
-            contentmaster.should match('/remote/a/b /etc/auto.testfolder2')
-            contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder2').send(:parameters)[:content]
-            contenttestfolder.should_not be_empty
-            contenttestfolder.should match('folder2 hard,rw nfs:/export/folder2')
+            {
+              'mounts' => {
+                'testfolder1' => {
+                'remote'     => 'nfs:/export/folder1',
+                'options'    => 'hard,rw',
+                'mountpoint' => '/remote/a/b/folder1'
+                },
+                'testfolder2' => {
+                  'remote'     => 'nfs:/export/folder2',
+                  'options'    => 'hard,rw',
+                  'mountpoint' => '/remote/a/b/folder2'
+                }
+              }
+            }
           end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_autofs__mount('testfolder1') }
+          it { is_expected.to contain_concat(master_file) }
+          it { is_expected.to contain_autofs__mountentry('/etc/auto._remote_a_b') }
+          it { is_expected.to contain_concat__fragment('/etc/auto._remote_a_b').with_content(/\/remote\/a\/b \/etc\/auto._remote_a_b/).with_target(master_file) }
+          it { is_expected.to contain_concat__fragment('testfolder1').with_content(/^folder1 hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto._remote_a_b') }
+          it { is_expected.to contain_concat__fragment('testfolder2').with_content(/^folder2 hard,rw nfs:\/export\/folder2$/).with_target('/etc/auto._remote_a_b') }
+        end
+
+        context "name collision on master" do
+          let(:params) do
+            {
+              'mounts' => {
+                'master' => {
+                  'remote'     => 'nfs:/export/folder1',
+                  'options'    => 'hard,rw',
+                  'mountpoint' => '/master/master'
+                }
+              }
+            }
+          end
+          it { is_expected.to contain_concat('/etc/auto.__') }
+          it { is_expected.to contain_concat__fragment('/etc/auto.__').with_content(/\/master \/etc\/auto.__/).with_target(master_file) }
+          it { is_expected.to contain_concat__fragment('master').with_content(/^master hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto.__') }
         end
 
         context "automount folders in /" do
@@ -115,44 +116,26 @@ describe 'autofs' do
             {
               'mounts' => {
                 'testfolder1' => {
-                  'remote'     => 'nfs:/export/folder1',
-                  'options'    => 'hard,rw',
-                  'mountpoint' => '/remote'
-                },
-                'testfolder2' => {
-                  'remote'     => 'nfs:/export/folder2',
-                  'options'    => 'hard,rw',
-                  'mountpoint' => '/remote2'
-                }
+                'remote'     => 'nfs:/export/folder1',
+                'options'    => 'hard,rw',
+                'mountpoint' => '/remote'
+              },
+              'testfolder2' => {
+                'remote'     => 'nfs:/export/folder2',
+                'options'    => 'hard,rw',
+                'mountpoint' => '/remote2'
+              }
               }
             }
           end
 
           it { is_expected.to compile.with_all_deps }
-          it { should contain_autofs__mount('testfolder1') }
-          if (os =~ /archlinux/)
-            it { should contain_concat('/etc/autofs/auto.master') }
-          else
-            it { should contain_concat('/etc/auto.master') }
-          end
-          it { should contain_concat__fragment('auto.testfolder1') }
-          it { should contain_concat__fragment('testfolder1') }
-          it 'should generate the automount configurations for testfolder1' do
-            contentmaster = catalogue.resource('concat::fragment', 'testfolder1').send(:parameters)[:content]
-            contentmaster.should_not be_empty
-            contentmaster.should match('/- /etc/auto.testfolder1')
-            contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder1').send(:parameters)[:content]
-            contenttestfolder.should_not be_empty
-            contenttestfolder.should match('/remote hard,rw nfs:/export/folder1')
-          end
-          it 'should generate the automount configurations for testfolder2' do
-            contentmaster = catalogue.resource('concat::fragment', 'testfolder2').send(:parameters)[:content]
-            contentmaster.should_not be_empty
-            contentmaster.should match('/- /etc/auto.testfolder2')
-            contenttestfolder = catalogue.resource('concat::fragment', 'auto.testfolder2').send(:parameters)[:content]
-            contenttestfolder.should_not be_empty
-            contenttestfolder.should match('/remote2 hard,rw nfs:/export/folder2')
-          end
+          it { is_expected.to contain_autofs__mount('testfolder1') }
+          it { is_expected.to contain_concat(master_file) }
+          it { is_expected.to contain_autofs__mountentry('/etc/auto._-') }
+          it { is_expected.to contain_concat__fragment('/etc/auto._-').with_content(/- \/etc\/auto._-/).with_target(master_file) }
+          it { is_expected.to contain_concat__fragment('testfolder1').with_content(/^\/remote hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto._-') }
+          it { is_expected.to contain_concat__fragment('testfolder2').with_content(/^\/remote2 hard,rw nfs:\/export\/folder2$/).with_target('/etc/auto._-') }
         end
 
         context "autofs with custom mount entry" do
@@ -170,11 +153,7 @@ describe 'autofs' do
 
           it { is_expected.to compile.with_all_deps }
           it { should contain_autofs__mountentry('home') }
-          it 'should populate auto.master' do
-            contentmaster = catalogue.resource('concat::fragment', 'home').send(:parameters)[:content]
-            contentmaster.should_not be_empty
-            contentmaster.should match('/home /opt/auto.home -t 60')
-          end
+          it { is_expected.to contain_concat__fragment('home').with_content(/^\/home \/opt\/auto.home -t 60$/).with_target(master_file) }
         end
       end
     end

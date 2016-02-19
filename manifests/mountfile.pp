@@ -3,7 +3,10 @@
 # Provide custom map file containing mounts
 #
 define autofs::mountfile ($mountpoint, $file_source) {
-  $mountfile = "/etc/auto.${title}"
+
+  $safe_target_name = regsubst($title, '[/:\n\s\*\(\)]', '_', 'GM')
+
+  $mountfile = "/etc/auto.${safe_target_name}"
 
   file { $mountfile:
     ensure  => 'present',

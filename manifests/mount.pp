@@ -11,8 +11,12 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
     $basename = basename($mountpoint)
   }
 
-  $mountfile = "/etc/auto.${title}"
+  $safe_target_name = regsubst($dirname, '[/:\n\s\*\(\)]|(?:master)', '_', 'GM')
 
+  $mountfile = "/etc/auto.${safe_target_name}"
+
+  # Multiple mounts under the same subdir should only
+  # have a single entry in auto.master file
   if (!defined(Concat[$mountfile])) {
     concat { $mountfile:
       owner  => $autofs::config_file_owner,
@@ -24,24 +28,23 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
     concat::fragment { "${mountfile} preamble":
       target  => $mountfile,
       content => "# File managed by puppet, do not edit\n",
-      order   => '01',
+      order   => 1,
       notify  => Service[$autofs::service_name],
     }
-  }
 
-  concat::fragment { "auto.${title}":
-    target  => $mountfile,
-    content => "${basename} ${options} ${remote}\n",
-    order   => '10',
-    notify  => Service[$autofs::service_name],
-  }
-
-  # Allow multiple mounts under the same parent dir
-  if (!defined(Autofs::Mountentry[$title])) {
-    autofs::mountentry { $title:
+    # Ensure auto.master is referencing auto.safe_target_name config file (mountfile)
+    autofs::mountentry { $mountfile:
       mountpoint => $dirname,
       mountfile  => $mountfile,
     }
   }
 
+  # Subdir should only get added into the mountfile referenced in auto.master, and not
+  # directly in auto.master
+  concat::fragment { $title:
+    target  => $mountfile,
+    content => "${basename} ${options} ${remote}\n",
+    order   => 10,
+    notify  => Service[$autofs::service_name],
+  }
 }
