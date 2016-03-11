@@ -56,7 +56,8 @@ describe 'autofs' do
               'mount_files' => {
                 'home' => {
                 'mountpoint' => '/home',
-                'file_source' => 'puppet:///modules/homefolder/auto.home'
+                'file_source' => 'puppet:///modules/homefolder/auto.home',
+                'file_mode' => '0644',
                 }
               }
             }
@@ -64,7 +65,7 @@ describe 'autofs' do
 
           it { is_expected.to compile.with_all_deps }
           it { should contain_autofs__mountfile('home') }
-          it { should contain_file('/etc/auto.home') }
+          it { should contain_file('/etc/auto.home').with({ 'mode' => '0644' })}
         end
 
         context "automount folder in nested directory structure" do
