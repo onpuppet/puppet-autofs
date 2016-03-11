@@ -23,8 +23,9 @@
 #   Example:
 #     {
 #       'home' => {
-#         mountpoint => '/home',
-#         file_source => 'puppet:///modules/mymodule/auto.home'
+#         mountpoint  => '/home',
+#         file_source => 'puppet:///modules/mymodule/auto.home',
+#         file_mode   => '0644',
 #       }
 #     }
 #
