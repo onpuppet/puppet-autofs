@@ -44,19 +44,19 @@ Example usage for automounting home folders:
             'home' => {
                 remote     => 'nfs.com:/export/home',
                 mountpoint => '/home',
-                options    => 'hard,rw',
+                options    => '-hard,rw',
             },
             'net' => {
                 remote     => 'nfs:/folder',
                 mountpoint => '/remote/folder',
-                options    => 'soft,ro',
+                options    => '-soft,ro',
             },
         }
     }
 
 Using the autofs::mount directly:
 
-    autofs::mount('nfs.com:/export/home','/home','hard,rw')
+    autofs::mount('nfs.com:/export/home','/home','-hard,rw')
 
 Supplying a custom automount file:
 

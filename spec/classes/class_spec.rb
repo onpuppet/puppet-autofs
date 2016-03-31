@@ -32,7 +32,7 @@ describe 'autofs' do
               'home' => {
               'remote'     => 'nfs:/export/home',
               'mountpoint' => '/home',
-              'options'    => 'hard,rw'
+              'options'    => '-hard,rw'
               }
               }
             }
@@ -74,12 +74,12 @@ describe 'autofs' do
               'mounts' => {
                 'testfolder1' => {
                 'remote'     => 'nfs:/export/folder1',
-                'options'    => 'hard,rw',
+                'options'    => '-hard,rw',
                 'mountpoint' => '/remote/a/b/folder1'
                 },
                 'testfolder2' => {
                   'remote'     => 'nfs:/export/folder2',
-                  'options'    => 'hard,rw',
+                  'options'    => '-hard,rw',
                   'mountpoint' => '/remote/a/b/folder2'
                 }
               }
@@ -91,8 +91,8 @@ describe 'autofs' do
           it { is_expected.to contain_concat(master_file) }
           it { is_expected.to contain_autofs__mountentry('/etc/auto._remote_a_b') }
           it { is_expected.to contain_concat__fragment('/etc/auto._remote_a_b').with_content(/\/remote\/a\/b \/etc\/auto._remote_a_b/).with_target(master_file) }
-          it { is_expected.to contain_concat__fragment('testfolder1').with_content(/^folder1 hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto._remote_a_b') }
-          it { is_expected.to contain_concat__fragment('testfolder2').with_content(/^folder2 hard,rw nfs:\/export\/folder2$/).with_target('/etc/auto._remote_a_b') }
+          it { is_expected.to contain_concat__fragment('testfolder1').with_content(/^folder1 -hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto._remote_a_b') }
+          it { is_expected.to contain_concat__fragment('testfolder2').with_content(/^folder2 -hard,rw nfs:\/export\/folder2$/).with_target('/etc/auto._remote_a_b') }
         end
 
         context "name collision on master" do
@@ -101,7 +101,7 @@ describe 'autofs' do
               'mounts' => {
                 'master' => {
                   'remote'     => 'nfs:/export/folder1',
-                  'options'    => 'hard,rw',
+                  'options'    => '-hard,rw',
                   'mountpoint' => '/master/master'
                 }
               }
@@ -109,7 +109,7 @@ describe 'autofs' do
           end
           it { is_expected.to contain_concat('/etc/auto.__') }
           it { is_expected.to contain_concat__fragment('/etc/auto.__').with_content(/\/master \/etc\/auto.__/).with_target(master_file) }
-          it { is_expected.to contain_concat__fragment('master').with_content(/^master hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto.__') }
+          it { is_expected.to contain_concat__fragment('master').with_content(/^master -hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto.__') }
         end
 
         context "automount folders in /" do
@@ -118,14 +118,14 @@ describe 'autofs' do
               'mounts' => {
                 'testfolder1' => {
                 'remote'     => 'nfs:/export/folder1',
-                'options'    => 'hard,rw',
+                'options'    => '-hard,rw',
                 'mountpoint' => '/remote'
-              },
-              'testfolder2' => {
-                'remote'     => 'nfs:/export/folder2',
-                'options'    => 'hard,rw',
-                'mountpoint' => '/remote2'
-              }
+                },
+                'testfolder2' => {
+                  'remote'     => 'nfs:/export/folder2',
+                  'options'    => '-hard,rw',
+                  'mountpoint' => '/remote2'
+                }
               }
             }
           end
@@ -135,8 +135,8 @@ describe 'autofs' do
           it { is_expected.to contain_concat(master_file) }
           it { is_expected.to contain_autofs__mountentry('/etc/auto._-') }
           it { is_expected.to contain_concat__fragment('/etc/auto._-').with_content(/- \/etc\/auto._-/).with_target(master_file) }
-          it { is_expected.to contain_concat__fragment('testfolder1').with_content(/^\/remote hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto._-') }
-          it { is_expected.to contain_concat__fragment('testfolder2').with_content(/^\/remote2 hard,rw nfs:\/export\/folder2$/).with_target('/etc/auto._-') }
+          it { is_expected.to contain_concat__fragment('testfolder1').with_content(/^\/remote -hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto._-') }
+          it { is_expected.to contain_concat__fragment('testfolder2').with_content(/^\/remote2 -hard,rw nfs:\/export\/folder2$/).with_target('/etc/auto._-') }
         end
 
         context "autofs with custom mount entry" do

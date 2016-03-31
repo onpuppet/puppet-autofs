@@ -3,7 +3,12 @@
 # Populate auto.master with mount entry
 #
 define autofs::mountentry ($mountpoint, $mountfile, $options = '') {
-  if (!defined(Concat[$autofs::config_file])) {
+
+  if ! defined(Class['autofs']) {
+    fail('You must include the autofs base class before using any autofs defined resources')
+  }
+
+  if ! defined(Concat[$autofs::config_file]) {
     concat { $autofs::config_file:
       owner  => $autofs::config_file_owner,
       group  => $autofs::config_file_group,

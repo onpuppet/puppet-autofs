@@ -3,7 +3,16 @@
 # Add mount point to autofs configuration
 #
 define autofs::mount ($remote, $mountpoint, $options = '') {
-  if (dirname($mountpoint) == '/') {
+
+  if ! defined(Class['autofs']) {
+    fail('You must include the autofs base class before using any autofs defined resources')
+  }
+
+  if $options != '' and $options !~ /-[\S]+?$/ {
+    fail("Autofs::Mount options string must start with -, and not contain spaces. Got: ${options}")
+  }
+
+  if dirname($mountpoint) == '/' {
     $dirname = '/-'
     $basename = $mountpoint
   } else {
@@ -17,7 +26,7 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
 
   # Multiple mounts under the same subdir should only
   # have a single entry in auto.master file
-  if (!defined(Concat[$mountfile])) {
+  if ! defined(Concat[$mountfile]) {
     concat { $mountfile:
       owner  => $autofs::config_file_owner,
       group  => $autofs::config_file_group,
