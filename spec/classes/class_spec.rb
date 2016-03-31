@@ -29,11 +29,11 @@ describe 'autofs' do
           let(:params) do
             {
               'mounts' => {
-              'home' => {
-              'remote'     => 'nfs:/export/home',
-              'mountpoint' => '/home',
-              'options'    => '-hard,rw'
-              }
+                'home' => {
+                'remote'     => 'nfs:/export/home',
+                'mountpoint' => '/home',
+                'options'    => '-hard,rw'
+                }
               }
             }
           end

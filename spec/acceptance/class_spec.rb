@@ -10,7 +10,7 @@ describe 'autofs class' do
           'home' => {
             'remote'     => 'nfs:/export/home',
             'mountpoint' => '/home',
-            'options'    => 'hard,rw',
+            'options'    => '-hard,rw',
           }
         }
       }
