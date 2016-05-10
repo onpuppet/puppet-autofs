@@ -42,19 +42,19 @@ Example usage for automounting home folders:
     class { 'autofs':
         mounts => {
             'home' => {
-              remote     => 'nfs.com:/export/home',
-              mountpoint => '/home',
-              options    => '-hard,rw',
+                remote     => 'nfs.com:/export/home',
+                mountpoint => '/home',
+                options    => '-hard,rw',
             },
             'net' => {
-              remote     => 'nfs:/folder',
-              mountpoint => '/remote/folder',
-              options    => '-soft,ro',
+                remote     => 'nfs:/folder',
+                mountpoint => '/remote/folder',
+                options    => '-soft,ro',
             },
             'misc' => {
-              remote     => ':/dev/sdb1',
-              mountpoint => '/misc/usb',
-              options    => '-fstype=auto,rw',
+                remote     => ':/dev/sdb1',
+                mountpoint => '/misc/usb',
+                options    => '-fstype=auto,rw',
           },
         }
     }
