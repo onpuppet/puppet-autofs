@@ -51,6 +51,11 @@ Example usage for automounting home folders:
                 mountpoint => '/remote/folder',
                 options    => '-soft,ro',
             },
+            'misc' => {
+                remote     => ':/dev/sdb1',
+                mountpoint => '/misc/usb',
+                options    => '-fstype=auto,rw',
+          },
         }
     }
 
