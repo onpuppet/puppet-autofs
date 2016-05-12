@@ -1,6 +1,6 @@
 {
   "name": "yuav-autofs",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Jon Skarpeteig",
   "summary": "Installs and configures autofs",
   "license": "Apache-2.0",
@@ -45,7 +45,8 @@
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "12.04",
-        "14.04"
+        "14.04",
+        "16.04"
       ]
     }
   ]
