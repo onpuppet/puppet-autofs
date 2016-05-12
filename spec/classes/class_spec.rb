@@ -138,7 +138,6 @@ describe 'autofs' do
           it { is_expected.to contain_autofs__mountentry('/etc/auto._misc') }
           it { is_expected.to contain_concat__fragment('/etc/auto._misc').with_content(/misc \/etc\/auto._misc --timeout=300/).with_target(master_file) }
           it { is_expected.to contain_concat__fragment('misc').with_content(/^stuff  nfs:\/export\/misc\/stuff$/).with_target('/etc/auto._misc') }
-
         end
 
         context "automount folders in /" do
