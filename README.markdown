@@ -75,3 +75,21 @@ Supplying a custom automount file:
 Using autofs::mountfile directly
 
     autofs::mountfile('/home', 'puppet:///modules/mymodule/auto.home'
+
+To set E.G --timeout option in auto.master, you need to manually configure the
+auto.master entry using the mount_entries param like so:
+
+    mount_entries => {
+        '/etc/auto._misc' => { # Resource name match generated name in Mount['misc']
+            mountpoint => '/misc',
+            mountfile => '/etc/auto._misc', # Matched to auto generated name in Mount['misc']
+            options => '--timeout=300',
+        }
+    },
+    mounts => {
+        'misc' => {
+            remote => 'nfs:/export/misc/stuff',
+	        mountpoint => '/misc/stuff',
+        }
+    }
+
