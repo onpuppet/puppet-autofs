@@ -44,10 +44,10 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
     # Ensure auto.master is referencing auto.safe_target_name config file (mountfile) and
     # avoid collisions with manually entered mount entries
     if ! defined(Autofs::Mountentry[$mountfile]) {
-	    autofs::mountentry { $mountfile:
-	      mountpoint => $dirname,
-	      mountfile  => $mountfile,
-	    }
+      autofs::mountentry { $mountfile:
+        mountpoint => $dirname,
+        mountfile  => $mountfile,
+      }
     }
   }
 
