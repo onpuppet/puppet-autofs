@@ -2,7 +2,7 @@
 #
 # Provide custom map file containing mounts
 #
-define autofs::mountfile ($mountpoint, $file_source, $file_mode = $autofs::config_file_mode) {
+define autofs::mountfile ($mountpoint, $file_source, $file_mode = $autofs::config_file_mode, $options = '') {
 
   if ! defined(Class['autofs']) {
     fail('You must include the autofs base class before using any autofs defined resources')
@@ -25,5 +25,6 @@ define autofs::mountfile ($mountpoint, $file_source, $file_mode = $autofs::confi
   autofs::mountentry { $mountfile:
     mountpoint => $mountpoint,
     mountfile  => $mountfile,
+    options    => $options,
   }
 }

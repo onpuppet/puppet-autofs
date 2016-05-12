@@ -112,6 +112,35 @@ describe 'autofs' do
           it { is_expected.to contain_concat__fragment('master').with_content(/^master -hard,rw nfs:\/export\/folder1$/).with_target('/etc/auto.__') }
         end
 
+        context "supply options to auto.master" do
+          let(:params) do
+            {
+              'mount_entries' => {
+                # Resource name match generated name from Mount['misc']
+                '/etc/auto._misc' => {
+                  'mountpoint' => '/misc',
+                  'mountfile' => '/etc/auto._misc', # Matched to auto generated name from Mount['misc']
+                  'options' => '--timeout=300',
+                }
+              },
+              'mounts' => {
+                'misc' => {
+                  'remote' => 'nfs:/export/misc/stuff',
+                  'mountpoint' => '/misc/stuff',
+                }
+              }
+            }
+          end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_autofs__mount('misc') }
+          it { is_expected.to contain_concat(master_file) }
+          it { is_expected.to contain_autofs__mountentry('/etc/auto._misc') }
+          it { is_expected.to contain_concat__fragment('/etc/auto._misc').with_content(/misc \/etc\/auto._misc --timeout=300/).with_target(master_file) }
+          it { is_expected.to contain_concat__fragment('misc').with_content(/^stuff  nfs:\/export\/misc\/stuff$/).with_target('/etc/auto._misc') }
+
+        end
+
         context "automount folders in /" do
           let(:params) do
             {
