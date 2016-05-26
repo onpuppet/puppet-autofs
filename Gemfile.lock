@@ -13,7 +13,7 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     backports (3.6.8)
-    beaker (2.41.0)
+    beaker (2.42.0)
       aws-sdk (~> 1.57)
       beaker-answers (~> 0.0)
       beaker-hiera (~> 0.0)
@@ -40,7 +40,7 @@ GEM
       stringify-hash (~> 0.0.0)
     beaker-hiera (0.1.1)
       stringify-hash (~> 0.0.0)
-    beaker-pe (0.1.2)
+    beaker-pe (0.2.0)
       stringify-hash (~> 0.0.0)
     beaker-puppet_install_helper (0.4.4)
       beaker (~> 2.0)
@@ -114,7 +114,7 @@ GEM
       fog-core (~> 1.22)
       fog-json
       inflecto (~> 0.0.2)
-    fog-core (1.39.0)
+    fog-core (1.40.0)
       builder
       excon (~> 0.49)
       formatador (~> 0.2)
@@ -200,9 +200,9 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    guard (2.13.0)
+    guard (2.14.0)
       formatador (>= 0.2.4)
-      listen (>= 2.7, <= 4.0)
+      listen (>= 2.7, < 4.0)
       lumberjack (~> 1.0)
       nenv (~> 0.1)
       notiffany (~> 0.0)
@@ -212,7 +212,7 @@ GEM
     guard-rake (1.0.0)
       guard
       rake
-    hiera (3.1.2)
+    hiera (3.2.0)
       json_pure
     highline (1.7.8)
     hirb (0.7.3)
@@ -224,15 +224,15 @@ GEM
     inflecto (0.0.2)
     inifile (2.0.2)
     ipaddress (0.8.3)
-    jgrep (1.4.0)
+    jgrep (1.4.1)
       json
     json (1.8.3)
     json_pure (1.8.3)
     jwt (1.5.4)
     launchy (2.4.3)
       addressable (~> 2.3)
-    listen (3.1.3)
-      rb-fsevent (~> 0.9, >= 0.9.7)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
     little-plugger (1.1.4)
@@ -250,12 +250,12 @@ GEM
       json
       spdx-licenses (~> 1.0)
     method_source (0.8.2)
-    mime-types (2.99.1)
+    mime-types (2.99.2)
     mini_portile2 (2.0.0)
-    minitest (5.8.4)
+    minitest (5.9.0)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    multi_json (1.12.0)
+    multi_json (1.12.1)
     multipart-post (2.0.0)
     nenv (0.3.0)
     net-http-persistent (2.9.4)
@@ -267,7 +267,7 @@ GEM
     netrc (0.11.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
-    notiffany (0.0.8)
+    notiffany (0.1.0)
       nenv (~> 0.1)
       shellany (~> 0.0)
     open_uri_redirections (0.2.1)
@@ -279,7 +279,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    puppet (4.4.2)
+    puppet (4.5.0)
       CFPropertyList (~> 2.2.6)
       facter (> 2.0, < 4)
       hiera (>= 2.0, < 4)
@@ -347,7 +347,7 @@ GEM
       rspec-support (~> 3.4.0)
     rspec-puppet (2.4.0)
       rspec
-    rspec-puppet-facts (1.5.0)
+    rspec-puppet-facts (1.6.1)
       facter
       facterdb (>= 0.3.0)
       json
@@ -361,9 +361,9 @@ GEM
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.4)
-    ruby-progressbar (1.8.0)
+    ruby-progressbar (1.8.1)
     ruby_dep (1.3.1)
-    serverspec (2.34.0)
+    serverspec (2.36.0)
       multi_json
       rspec (~> 3.0)
       rspec-its
@@ -386,7 +386,7 @@ GEM
     simplecov-html (0.10.0)
     slop (3.6.0)
     spdx-licenses (1.1.0)
-    specinfra (2.57.2)
+    specinfra (2.57.5)
       net-scp
       net-ssh (>= 2.7, < 4.0)
       net-telnet
