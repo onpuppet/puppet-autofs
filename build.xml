@@ -7,9 +7,15 @@
 	</target>
 
 	<target name="clean">
-                <delete includeemptydirs="true" removeNotFollowedSymlinks="true" failonerror="false">
-                    <fileset followSymlinks="no" dir="${basedir}/spec/fixtures/modules" includes="**/*"/>
-                </delete>
+		<delete includeemptydirs="true" removeNotFollowedSymlinks="true" failonerror="false">
+			<fileset followSymlinks="no" dir="${basedir}/spec/fixtures/modules" defaultexcludes="no">
+				<include name="**/*" />
+				<exclude name="**/*~" />
+				<exclude name="**/#*#" />
+				<exclude name="**/.#*" />
+				<exclude name="**/%*%" />
+			</fileset>
+		</delete>
 	</target>
 
 	<target name="rvm" description="Prepare RVM">
