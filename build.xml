@@ -48,10 +48,9 @@
 	<target name="acceptance" description="Run acceptance tests in parallel">
 		<script language="javascript">
 			<![CDATA[ 
-			importClass(java.io.File);
 		    fs = project.createDataType("fileset");
 		    dir = "spec/acceptance/nodesets";
-		    fs.setDir( new File( dir ) );
+		    fs.setDir( new java.io.File( dir ) );
 		    fs.setIncludes( "**/*.yml" );
 	
 		    // create parallel Task via Ant API
