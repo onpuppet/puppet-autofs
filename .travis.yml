@@ -43,6 +43,13 @@ matrix:
     script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
   - rvm: default
     sudo: required
+    dist: xenial
+    services: docker
+    env: BEAKER_set="ubuntu-1604"
+    bundler_args:
+    script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
+  - rvm: default
+    sudo: required
     dist: trusty
     services: docker
     env: BEAKER_set="centos-7"
