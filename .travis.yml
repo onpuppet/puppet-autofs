@@ -41,7 +41,7 @@ matrix:
     env: BEAKER_set="ubuntu-1404"
     bundler_args: 
     script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
-  - rvm: default
+  - rvm: 2.1.7
     sudo: required
     dist: xenial
     services: docker
