@@ -10,6 +10,7 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with autofs](#beginning-with-autofs)
 4. [Usage - Configuration options and additional functionality](#usage)
+    * [Using hiera](#using-hiera)
 
 ## Overview
 
@@ -46,7 +47,7 @@ Example usage for automounting home folders:
           mountpoint => '/home',
           options    => '-hard,rw',
         },
-        'net' => {
+        'net'  => {
           remote     => 'nfs:/folder',
           mountpoint => '/remote/folder',
           options    => '-soft,ro',
@@ -66,37 +67,53 @@ Using the autofs::mount directly:
 Supplying a custom automount file:
 
     class { 'autofs':
-      mount_files' => {
+      'mount_files' => {
         'home' => {
-          mountpoint => '/home',
+          mountpoint  => '/home',
           file_source => 'puppet:///modules/mymodule/auto.home'
         },
-        'net' => {
-            mountpoint => '/remote',
+        'net'  => {
+            mountpoint  => '/remote',
             file_source => 'puppet:///modules/mymodule/auto.net'
           }
         }
+    }
 
 Using autofs::mountfile directly
 
     autofs::mountfile('/home', 'puppet:///modules/mymodule/auto.home'
 
-To set E.G --timeout option in auto.master, you need to manually configure the
+To set e.g. --timeout option in auto.master, you need to manually configure the
 auto.master entry using the mount_entries param like so:
 
     class { 'autofs':
-	  mount_entries => {
-	    '/etc/auto._misc' => { # Resource name match generated name in Mount['misc']
-	      mountpoint => '/misc',
-	      mountfile => '/etc/auto._misc', # Matched to auto generated name in Mount['misc']
-	      options => '--timeout=300',
-	    }
-	  },
-	  mounts => {
-	    'misc' => {
-	      remote => 'nfs:/export/misc/stuff',
-		  mountpoint => '/misc/stuff',
-	    }
-	  }
+      mount_entries => {
+        '/etc/auto._misc' => { # Resource name match generated name in Mount['misc']
+          mountpoint => '/misc',
+          mountfile  => '/etc/auto._misc', # Matched to auto generated name in Mount['misc']
+          options    => '--timeout=300',
+        }
+      },
+      mounts => {
+        'misc'      => {
+          remote     => 'nfs:/export/misc/stuff',
+          mountpoint => '/misc/stuff',
+          options    => '--timeout=300',
+        }
+      }
     }
 
+### Using hiera
+
+If you're using hiera:
+
+    autofs::mounts:
+      'misc':
+        remote: 'nfs:/export/misc/stuff'
+        mountpoint: '/misc/stuff'
+        options: '-hard,rw'
+    autofs::mount_entries:
+        '/etc/auto._misc':
+          mountpoint: '/misc'
+          mountfile: '/etc/auto._misc'
+          options: '--timeout=300'
