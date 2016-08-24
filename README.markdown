@@ -99,7 +99,7 @@ auto.master entry using the mount_entries param like so:
           remote     => 'nfs:/export/misc/stuff',
           mountpoint => '/misc/stuff',
           options    => '--timeout=300',
-	    }
+        }
       }
     }
 
