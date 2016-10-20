@@ -9,7 +9,7 @@ group :test do
   gem 'metadata-json-lint'
   gem 'rspec-puppet-facts'
   gem 'ci_reporter_rspec'
-  gem 'rubocop', :require => false if RUBY_VERSION >= '2.3.0'
+  gem 'rubocop-rspec', '~> 1.6', :require => false if RUBY_VERSION >= '2.3.0'
   gem 'simplecov'
   gem 'simplecov-console'
   gem 'puppet-lint-absolute_classname-check'
