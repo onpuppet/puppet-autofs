@@ -5,7 +5,8 @@ describe 'autofs::mount', :type => :define do
     context "on #{os}" do
       let(:facts) do
         facts.merge({
-          :concat_basedir => '/etc/puppet' })
+          :concat_basedir => '/etc/puppet'
+        })
       end
 
       let :pre_condition do
@@ -15,7 +16,8 @@ describe 'autofs::mount', :type => :define do
       let(:title) { 'bin' }
 
       let(:params) do
-        { 'remote'     => 'nfs:/remotedir',
+        {
+          'remote'     => 'nfs:/remotedir',
           'mountpoint' => '/localdir',
           'options'    => '-ro,hard'
         }
@@ -26,13 +28,13 @@ describe 'autofs::mount', :type => :define do
       end
 
       it 'should report an error when options are missing - in front' do
-        params.merge!({'options' => 'ro,hard'})
+        params['options'] = 'ro,hard'
         expect { catalogue }.to raise_error(Puppet::Error,
         /Autofs::Mount options string must start with -, and not contain spaces. Got: /)
       end
 
       it 'should report an error when options contain spaces' do
-        params.merge!({'options' => '-ro, hard'})
+        params['options'] = 'ro, hard'
         expect { catalogue }.to raise_error(Puppet::Error,
         /Autofs::Mount options string must start with -, and not contain spaces. Got: /)
       end

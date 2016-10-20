@@ -190,6 +190,9 @@ Style/UnneededPercentQ:
 Style/Tab:
   Enabled: false
 
+Style/TrailingCommaInLiteral:
+  Enabled: false
+
 Style/SpaceBeforeSemicolon:
   Enabled: false
 
@@ -211,16 +214,10 @@ Style/SpaceInsideParens:
 Style/LeadingCommentSpace:
   Enabled: false
 
-Style/SingleSpaceBeforeFirstArg:
-  Enabled: false
-
 Style/SpaceAfterColon:
   Enabled: false
 
 Style/SpaceAfterComma:
-  Enabled: false
-
-Style/SpaceAfterControlKeyword:
   Enabled: false
 
 Style/SpaceAfterMethodName:
@@ -266,9 +263,6 @@ Style/Documentation:
   Enabled: false
 
 Style/DefWithParentheses:
-  Enabled: false
-
-Style/DeprecatedHashMethods:
   Enabled: false
 
 Style/DotPosition:
@@ -321,9 +315,6 @@ Style/TrailingWhitespace:
   Enabled: false
 
 Style/StringLiterals:
-  Enabled: false
-
-Style/TrailingComma:
   Enabled: false
 
 Style/GlobalVars:
@@ -464,7 +455,7 @@ Metrics/ParameterLists:
 Lint/RequireParentheses:
   Enabled: false
 
-Lint/SpaceBeforeFirstArg:
+Style/SpaceBeforeFirstArg:
   Enabled: false
 
 Style/ModuleFunction:
