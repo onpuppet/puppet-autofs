@@ -17,7 +17,7 @@ matrix:
   - rvm: 2.3.1
     env: PUPPET_VERSION="~> 4.0" CHECK=rubocop
   - rvm: 2.3.1
-    env: PUPPET_VERSION="~> 4.0" CHECK=test
+    env: PUPPET_VERSION="~> 4.0" CHECK=test DEPLOY_TO_FORGE=yes
   - rvm: 2.3.1
     sudo: required
     dist: trusty
@@ -63,4 +63,4 @@ deploy:
   on:
     tags: true
     all_branches: true
-    rvm: 2.1.7
+    condition: "$DEPLOY_TO_FORGE = yes"
