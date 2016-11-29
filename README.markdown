@@ -62,7 +62,11 @@ Example usage for automounting home folders:
 
 Using the autofs::mount directly:
 
-    autofs::mount('nfs.com:/export/home','/home','-hard,rw')
+    autofs::mount { 'home':
+      remote => 'nfs.com:/export/home',
+      mountpoint => '/home',
+      options => '-hard,rw'
+    }
 
 Supplying a custom automount file:
 
