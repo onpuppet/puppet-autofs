@@ -63,9 +63,9 @@ Example usage for automounting home folders:
 Using the autofs::mount directly:
 
     autofs::mount { 'home':
-      remote => 'nfs.com:/export/home',
+      remote     => 'nfs.com:/export/home',
       mountpoint => '/home',
-      options => '-hard,rw'
+      options    => '-hard,rw',
     }
 
 Supplying a custom automount file:
@@ -74,18 +74,22 @@ Supplying a custom automount file:
       'mount_files' => {
         'home' => {
           mountpoint  => '/home',
-          file_source => 'puppet:///modules/mymodule/auto.home'
+          file_source => 'puppet:///modules/mymodule/auto.home',
         },
         'net'  => {
-            mountpoint  => '/remote',
-            file_source => 'puppet:///modules/mymodule/auto.net'
-          }
+          mountpoint  => '/remote',
+          file_source => 'puppet:///modules/mymodule/auto.net',
         }
+      }
     }
 
 Using autofs::mountfile directly
 
-    autofs::mountfile('/home', 'puppet:///modules/mymodule/auto.home'
+    autofs::mountfile { 'homefile':
+      mountpoint  => '/home', 
+      file_source => 'puppet:///modules/mymodule/auto.home',
+    }
+      
 
 To set e.g. --timeout option in auto.master, you need to manually configure the
 auto.master entry using the mount_entries param like so:
