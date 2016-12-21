@@ -31,7 +31,7 @@ class autofs::params {
   }
 
   case $::osfamily {
-    'Debian', 'Archlinux', 'RedHat', 'Amazon' : {
+    'Debian', 'Archlinux', 'RedHat', 'Amazon', 'Solaris', 'Suse', 'FreeBSD', 'OpenBSD', 'Gentoo' : {
       $package_name = 'autofs'
       $service_name = 'autofs'
     }
