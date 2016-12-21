@@ -4,22 +4,18 @@
   "author": "Jon Skarpeteig",
   "summary": "Installs and configures autofs",
   "license": "Apache-2.0",
-  "tags": ["autofs", "automount"],
+  "tags": ["autofs", "automount", "mount"],
   "source": "https://github.com/Yuav/puppet-autofs",
   "project_page": "https://github.com/Yuav/puppet-autofs",
   "issues_url": "https://github.com/Yuav/puppet-autofs",
-  "tags": [
-    "autofs",
-    "mount"
-  ],
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 4.6.0"
+      "version_requirement": ">= 4.6.0 < 5.0.0"
     },
     {
       "name": "puppetlabs-concat",
-      "version_requirement": ">= 1.0.0"
+      "version_requirement": ">= 1.0.0 < 3.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -48,6 +44,46 @@
         "14.04",
         "16.04"
       ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "10 SP4",
+        "11 SP1",
+        "12"
+      ]
+    },
+    {
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "20",
+        "21"
+      ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "10",
+        "11"
+      ]
+    },
+    {
+      "operatingsystem": "FreeBSD",
+      "operatingsystemrelease": [
+        "9",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "OpenBSD",
+      "operatingsystemrelease": [
+        "5.7",
+        "5.8",
+        "5.9"
+      ]
+    },
+    {
+      "operatingsystem": "Gentoo"
     }
   ]
 }
