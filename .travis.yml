@@ -4,7 +4,7 @@ cache: bundler
 bundler_args: "--without development"
 before_install: rm Gemfile.lock || true
 script:
-  - 'bundle exec rake $CHECK'
+- bundle exec rake $CHECK
 matrix:
   fast_finish: true
   include:
@@ -23,7 +23,7 @@ matrix:
     dist: trusty
     services: docker
     env: BEAKER_set="debian-8"
-    bundler_args:
+    bundler_args: 
     script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
   - rvm: 2.3.1
     sudo: required
@@ -44,7 +44,7 @@ matrix:
     dist: trusty
     services: docker
     env: BEAKER_set="ubuntu-1604"
-    bundler_args:
+    bundler_args: 
     script: sudo service docker restart ; sleep 10 && bundle exec rspec spec/acceptance/*_spec.rb
   - rvm: 2.3.1
     sudo: required
@@ -59,7 +59,7 @@ deploy:
   provider: puppetforge
   user: onpuppet
   password:
-    secure: "ZjnryQvoKXpvL8mCF+4VSQDsE/PxRcMuzGHllpolEz9EIFF0phuaJdR6QSkP+LdRvJQzxH+BttoMZH4fbX8JcYq98xs4AtMRAhWy8HzOUyeHyYikbJh7jhCJATFmbIx9DhyVYOXMkaewxkujbUH6L6xB7eKX5NIOTCywbjIqAl07F541OFublIxnThS2v6mUpoKJSnjvn8lBnSjilXgHHoaud8NusGbWZaTjxqePvtYcHrBhAGuHv0Sd6dE4c74C90Psb4oUKMoFs7CWlQweX8oSrMrbDuGyCXwSlPn62WHvE7OpLxfTnMF9RvvypVmalSgrhJU2nX3OsN16Md/+1CkL6x1vlmTnU+QHt+oPI6GBvNhMrudDjVEzxUIjP2fsDp7q7TlGmbOKY9/11YS/eY7vcLWWh0oN7rSrUdvYPZHNKcqYExnAppWTZ5VyNZOktNMGi80EM8nK585bjNmQpvf7AbDnI5jxFOyE1w/38boPt2sjIZ960/qUllgGqD0DV+xqY4Ctj6Wd4qshMdOE344Nar9w42G99KxLOG6MAKwDqvFwGuM03brPkudKDlCziIZOQKQeVP1w0Qm1js1d429QS3WpuTDlNbE0div/ZTW95ipWluvj3Ru7/D4rJNifvN/t6AlKBHejLlJFLn2e5oq69q2ZZ+LRarsy23jzTCc="
+    secure: PMkXVmCANCXgg8wXEPHSoY5G4lcSg6UUlK8N4Ky3O0+/PL8Alix9epmzjSXZTSUV2JSHDUXXuffnD8wcZWow7wnYfi0PvtciPQuOzfSYVaSLcUa9Qt7fFkFr+chnnike10vLn5h5fJZiC+6tSf6QzzpaB4zNiJeZQCk2oxcCnCrpG2UIhMOTsENDgV88UieFzwsTk0RqyMRy88ORSehz25XNjkvBJNsOUOqDcnXkVsqH4xecTW6g9ALaXKMYzDrlfGSOR3T0NP4BR6NHW2dREHUm6P7nJfdR3h46WxKuEUNwU5h2O0Lw7l6Gvz8aRG4elbOQuhkt8ir10W3KvNXhWorxdgHONP3ucyzzZ3/uXqpDbE60LU3BaXqL10HBofKQGqUnsyH5Vhj4lxMXzc05ur1o6sDHd5ucklYVpBg50/iOPffq+CXnyDBBG0sHCov66zhbxXhA90ZFvrgiEpUmp5K0HGOEON5LvzwgK41G4rar4SoYvztdHm6iqQDJGgdlMvl/UPF0kBkMBxtgPRZc5CUjUOsYHDHzhwMAIhogLvXGIWcxkQgwLfCc7gg/gWKlJYCijzURkcoH5D0gY2iP83HsU9gh8NyVQYG5U5qVSK1pWnX1aL4heNeLVEcpUNTZus6T5ktukR4QOQflDH1lHsWIFNfkTMY1oMoDPf8cCnQ=
   on:
     tags: true
     all_branches: true
