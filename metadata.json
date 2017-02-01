@@ -1,13 +1,13 @@
 {
-  "name": "yuav-autofs",
+  "name": "onpuppet-autofs",
   "version": "1.2.5",
   "author": "Jon Skarpeteig",
   "summary": "Installs and configures autofs",
   "license": "Apache-2.0",
   "tags": ["autofs", "automount", "mount"],
-  "source": "https://github.com/Yuav/puppet-autofs",
-  "project_page": "https://github.com/Yuav/puppet-autofs",
-  "issues_url": "https://github.com/Yuav/puppet-autofs",
+  "source": "https://github.com/onpuppet/puppet-autofs",
+  "project_page": "https://github.com/onpuppet/puppet-autofs",
+  "issues_url": "https://github.com/onpuppet/puppet-autofs",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
