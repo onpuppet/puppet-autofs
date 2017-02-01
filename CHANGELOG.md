@@ -1,3 +1,7 @@
+## 2017-02-01 Release 2.0.1
+
+* Namespace update
+
 ## 2016-12-21 Release 1.2.5
 
 * Metadata update
