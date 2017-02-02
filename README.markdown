@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/Yuav/puppet-autofs.svg?branch=master)](https://travis-ci.org/Yuav/puppet-autofs)
-[![Dependency Status](https://gemnasium.com/Yuav/puppet-autofs.png)](http://gemnasium.com/Yuav/puppet-autofs)
+[![Build Status](https://travis-ci.org/onpuppet/puppet-autofs.svg?branch=master)](https://travis-ci.org/onpuppet/puppet-autofs)
 
 #### Table of Contents
 
