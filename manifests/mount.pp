@@ -2,7 +2,7 @@
 #
 # Add mount point to autofs configuration
 #
-define autofs::mount ($remote, $mountpoint, $options = '') {
+define autofs::mount ($remote, $mountpoint, $options = '', $mapname = undef) {
 
   if ! defined(Class['autofs']) {
     fail('You must include the autofs base class before using any autofs defined resources')
@@ -20,7 +20,11 @@ define autofs::mount ($remote, $mountpoint, $options = '') {
     $basename = basename($mountpoint)
   }
 
-  $safe_target_name = regsubst($dirname, '[/:\n\s\*\(\)]|(?:master)', '_', 'GM')
+  if $mapname == undef {
+    $safe_target_name = regsubst($dirname, '[/:\n\s\*\(\)]|(?:master)', '_', 'GM')
+  } else {
+    $safe_target_name = regsubst($mapname, '[/:\n\s\*\(\)]|(?:master)', '_', 'GM')
+  }
 
   $mountfile = "/etc/auto.${safe_target_name}"
 

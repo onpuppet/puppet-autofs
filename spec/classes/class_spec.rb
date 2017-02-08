@@ -90,6 +90,36 @@ describe 'autofs' do
           it { is_expected.to contain_concat__fragment('testfolder2').with_content(%r{^folder2 -hard,rw nfs:\/export\/folder2$}).with_target('/etc/auto._remote_a_b') }
         end
 
+        context 'automount folder in nested directory structure with custom mapname' do
+          let(:params) do
+            {
+              'mounts' => {
+                'testfolder1' => {
+                  'mapname'    => 'nfs',
+                  'remote'     => 'nfs:/export/folder1',
+                  'options'    => '-hard,rw',
+                  'mountpoint' => '/remote/a/b/folder1'
+                },
+                'testfolder2' => {
+                  'mapname'    => 'nfs',
+                  'remote'     => 'nfs:/export/folder2',
+                  'options'    => '-hard,rw',
+                  'mountpoint' => '/remote/a/b/folder2'
+                }
+              }
+            }
+          end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_autofs__mount('testfolder1') }
+          it { is_expected.to contain_autofs__mount('testfolder2') }
+          it { is_expected.to contain_concat(master_file) }
+          it { is_expected.to contain_autofs__mountentry('/etc/auto.nfs') }
+          it { is_expected.to contain_concat__fragment('/etc/auto.nfs').with_content(%r{\/remote\/a\/b \/etc\/auto.nfs}).with_target(master_file) }
+          it { is_expected.to contain_concat__fragment('testfolder1').with_content(%r{^folder1 -hard,rw nfs:\/export\/folder1$}).with_target('/etc/auto.nfs') }
+          it { is_expected.to contain_concat__fragment('testfolder2').with_content(%r{^folder2 -hard,rw nfs:\/export\/folder2$}).with_target('/etc/auto.nfs') }
+        end
+
         context 'name collision on master' do
           let(:params) do
             {
