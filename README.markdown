@@ -111,6 +111,27 @@ class { 'autofs':
   }
 }
 ```
+
+To set the filename of the generated mapfile, set the `$mapname` parameter.
+This will set the filename to `/etc/auto.${mapname}`:
+```puppet
+class { 'autofs':
+  mount_entries => {
+    '/etc/auto.glusterfs' => { # Matched to mapname for Mount['glusterfs']
+      mountpoint => '/misc',
+      mountfile  => '/etc/auto.glusterfs', # Matched to mapname for Mount['glusterfs']
+      options    => '--timeout=300',
+    }
+  },
+  mounts => {
+    'glusterfs => {
+      remote     => 'glusters:/gv0',
+      mountpoint => '/mnt/gv0',
+      options    => '-fstype=glusterfs',
+    }
+  }
+}
+```
 ### Using hiera
 
 If you're using hiera:
