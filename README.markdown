@@ -124,7 +124,8 @@ class { 'autofs':
     }
   },
   mounts => {
-    'glusterfs => {
+    'glusterfs' => {
+      mapname    => 'glusterfs',
       remote     => 'glusters:/gv0',
       mountpoint => '/mnt/gv0',
       options    => '-fstype=glusterfs',
