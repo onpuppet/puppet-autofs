@@ -1,3 +1,7 @@
+## 2017-02-10 Release 2.1.0
+
+* Added option to specify filename for generated mapfile
+
 ## 2017-02-01 Release 2.0.1
 
 * Namespace update
