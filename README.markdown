@@ -71,7 +71,7 @@ autofs::mount { 'home':
 Supplying a custom automount file:
 ```puppet
 class { 'autofs':
-  'mount_files' => {
+  mount_files => {
     'home' => {
       mountpoint  => '/home',
       file_source => 'puppet:///modules/mymodule/auto.home',
